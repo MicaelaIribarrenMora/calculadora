@@ -15,27 +15,23 @@ const operatorFunction = function() {
     display.innerText = ''
     selectedOperator = event.target.textContent
 }
+const options = {
+    baseURL: "http://localhost:3000/",
+    timeout: 5000,
+    method: "get",
+    headers: {
+        "ContentType": "Application/json",
+    },
+}
 
 const resultFunction = function(event) {
     secondValue = parseFloat(display.innerText)
-    let result
-    switch (selectedOperator) {
-        case '*':
-            result = firstValue * secondValue
-            break
-        case '+':
-            result = firstValue + secondValue
-            break
-        case '-':
-            result = firstValue - secondValue
-            break
-        case '/':
-            result = firstValue / secondValue
-            break
-        default:
-            break
-    }
-    display.innerText = result
+    fetch(`http://localhost:3000/getresults/${firstValue}/${secondValue}/${selectedOperator}`, options)
+        .then(res => res.json())
+        .then((response) => {
+            console.log(response)
+            display.innerText = response.result
+        })
 }
 
 const pointFunction = function() {
@@ -89,3 +85,7 @@ window.onload = function() {
     btnEqual.onclick = resultFunction
 
 }
+
+
+//redux + react
+//node + express
